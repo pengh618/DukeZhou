@@ -1,5 +1,20 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
+import router from './router'
+import piniaStore from './store'
+import { setupNaiveDiscreteApi } from '@/utils/globalMessage'
 
-createApp(App).mount('#app')
+// style
+import '@/styles/index.less'
+import '@/styles/reset.less'
+import 'uno.css'
+
+// 注册SVG图标
+import 'virtual:svg-icons-register'
+
+const app = createApp(App)
+app.use(router)
+app.use(piniaStore)
+setupNaiveDiscreteApi()
+
+app.mount('#app')
