@@ -8,7 +8,7 @@
         class="transition"
         hover="decoration-underline color-primary"
       >
-        AI
+      BY KK.PENG
       </a>
     </p>
   </footer>
