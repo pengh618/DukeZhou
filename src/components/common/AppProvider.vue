@@ -28,6 +28,8 @@ watch(
 
 <template>
   <n-config-provider wh-full :theme="appStore.naiveTheme">
-    <slot />
+    <n-message-provider>
+      <slot />
+    </n-message-provider>
   </n-config-provider>
 </template>
