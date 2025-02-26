@@ -55,14 +55,14 @@
               <td>{{ resultObj.简介 }}</td>
             </tr>
             <tr>
-              <td><n-tag type="warning">
+              <td><n-tag type="success">
                   简介
                 </n-tag></td>
               <td>{{ resultObj.概述 }}</td>
             </tr>
 
             <tr>
-              <td><n-tag>
+              <td><n-tag type="info">
                 关键符号
                 </n-tag></td>
               <td>
@@ -79,7 +79,7 @@
               <td>{{ resultObj.潜在意义 }}</td>
             </tr>
             <tr>
-              <td><n-tag>
+              <td><n-tag  type="info">
                 总结
                 </n-tag></td>
               <td>{{ resultObj.总结 }}</td>
