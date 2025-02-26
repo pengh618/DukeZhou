@@ -13,10 +13,10 @@
           to="/"
           class="cursor-pointer inline-flex items-center whitespace-nowrap shrink-0 justify-center text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-solid border-#e4e4e7 shadow-sm font-medium hover:bg-#e4e4e7 hover:dark:bg-#222 h-8 px-3 py-2 rounded-full"
         >
-          <SvgIcon name="svg-search" size="18px" :color="isDark ? '#fff' : '#111'" />
-          <span class="hidden sm:inline">寻梦</span>
+          <SvgIcon name="svg-email" size="18px" :color="isDark ? '#fff' : '#111'" />
+          <a href="mailto:pengh618@gmail.com" class="hidden sm:inline">联系我</a>
         </router-link>
-        <div
+        <!-- <div
           @click="toggleDark"
           class="cursor-pointer inline-flex items-center whitespace-nowrap shrink-0 justify-center text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-solid border-#e4e4e7 shadow-sm font-medium hover:bg-#e4e4e7 hover:dark:bg-#222 h-8 px-3 py-2 rounded-full"
         >
@@ -27,7 +27,7 @@
           class="cursor-pointer inline-flex items-center whitespace-nowrap shrink-0 justify-center text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-solid border-#e4e4e7 shadow-sm font-medium hover:bg-#e4e4e7 hover:dark:bg-#222 h-8 px-3 py-2 rounded-full"
         >
           <SvgIcon name="svg-user" size="20px" :color="isDark ? '#fff' : '#111'" />
-        </router-link>
+        </router-link> -->
 
       </div>
     </div>
