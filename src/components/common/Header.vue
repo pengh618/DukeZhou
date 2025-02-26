@@ -13,7 +13,7 @@
           to="/"
           class="cursor-pointer inline-flex items-center whitespace-nowrap shrink-0 justify-center text-sm transition-colors disabled:pointer-events-none disabled:opacity-50 border border-solid border-#e4e4e7 shadow-sm font-medium hover:bg-#e4e4e7 hover:dark:bg-#222 h-8 px-3 py-2 rounded-full"
         >
-          <SvgIcon name="svg-email" size="18px" :color="isDark ? '#fff' : '#111'" />
+          <SvgIcon name="svg-email" size="18px"/>
           <a href="mailto:pengh618@gmail.com" class="hidden sm:inline">联系我</a>
         </router-link>
         <!-- <div
@@ -35,15 +35,15 @@
 </template>
 
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
-import { useAppStore } from '@/store'
+// import { useDark, useToggle } from '@vueuse/core'
+// import { useAppStore } from '@/store'
 
-const appStore = useAppStore()
-const isDark = useDark()
-const toggleDark = () => {
-  appStore.toggleDark()
-  useToggle(isDark)()
-}
+// const appStore = useAppStore()
+// const isDark = useDark()
+// const toggleDark = () => {
+//   appStore.toggleDark()
+//   useToggle(isDark)()
+// }
 </script>
 
 <style scoped></style>
