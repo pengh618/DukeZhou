@@ -16,7 +16,7 @@
                         <n-scrollbar>
                             <div style="max-height: 200px; overflow-y: auto;">
                                 <n-input type="textarea" v-model:value="answers" readonly size="large" round placeholder="AI吐词......思考完成为将格式结果:)"
-                                    :style="{ height: '200px' }" />
+                                    :style="{ height: '180px' }" />
                             </div>
                         </n-scrollbar>
                     </n-space>
