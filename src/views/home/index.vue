@@ -140,7 +140,7 @@ const handleClick = async () => {
   loading.value = true
   try {
     console.log(userInput.value)
-    await axios.post(`https://world.ai-help.space/qa_plus/generate?input=${encodeURIComponent(userInput.value)}`)
+    await axios.post(`https://world.ai-help.space/ai/generate?input=${encodeURIComponent(userInput.value)}`)
       .then(res => {
         console.log(res.data)
         showModal.value = true
