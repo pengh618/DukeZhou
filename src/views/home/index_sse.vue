@@ -3,7 +3,7 @@
         <main class="auto-bg h-full flex flex-col items-center">
             <div class="m-12 flex-1 rounded-2 lg:w-[1200px] lg:px-0 w-90%">
                 <n-gradient-text :size="24" type="info">
-                    分享你的梦境，获取AI提供的详细解读
+                    分享你的梦境，AI提供解读
                 </n-gradient-text>
             </div>
 
@@ -15,7 +15,7 @@
 
                         <n-scrollbar>
                             <div style="max-height: 200px; overflow-y: auto;">
-                                <n-input type="textarea" v-model:value="answers" readonly size="large" round placeholder="AI吐词......思考完成为将格式结果:)"
+                                <n-input type="textarea" v-model:value="answers" readonly size="large" round placeholder="AI吐词区~~~思考完成将格式化~~~"
                                     :style="{ height: '180px' }" />
                             </div>
                         </n-scrollbar>
