@@ -12,8 +12,13 @@
                     <n-space vertical>
                         <n-input type="textarea" v-model:value="userInput" size="large" round placeholder="请描述你的梦境..."
                             :style="{ height: '100px' }" />
-                        <n-input type="textarea" v-model:value="answers" size="large" round placeholder="AI回答..."
-                            :style="{ height: '200px' }" />    
+
+                        <n-scrollbar>
+                            <div style="max-height: 200px; overflow-y: auto;">
+                                <n-input type="textarea" v-model:value="answers" readonly size="large" round placeholder="AI吐词......思考完成为将格式结果:)"
+                                    :style="{ height: '200px' }" />
+                            </div>
+                        </n-scrollbar>
                     </n-space>
                 </div>
 
