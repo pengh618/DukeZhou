@@ -5,7 +5,7 @@
     <div class="flex items-center w-full gap-8 lg:w-[1200px]">
       <div class="flex items-center gap-2">
         <h1 class="mr-4 sm:mr-8 h-15 w-[210px] lg:mr-16 sm:h-[52px]">
-          <router-link to="/" class="h-15">周公解梦</router-link>
+          <router-link to="/" class="h-15">AI帮帮忙</router-link>
         </h1>
       </div>
       <div class="flex items-center gap-2 ml-auto">
