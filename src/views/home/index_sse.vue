@@ -172,14 +172,13 @@ const handleClick = async () => {
     try {
         
         let url = 'https://world.ai-help.space/qa_plus/generate?input='+encodeURIComponent(userInput.value);
-        console.log(url);
+
         let eventSource: EventSource ;
         eventSource = new EventSource(url);
 
         let i = 0
         eventSource.onmessage = (event) => {
             i++
-            console.log("第"+i+"次接收到消息：", event.data);
             if (event.data===("```") && i>2) {
                 loading.value = false;
                 eventSource.close();
