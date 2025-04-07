@@ -176,17 +176,8 @@ const handleClick = async () => {
         let eventSource: EventSource ;
         eventSource = new EventSource(url);
 
-        /*
-        * open：订阅成功（和后端连接成功）
-        */
-        eventSource.addEventListener("open", function(e) {
-            console.log('open successfully')
-        });
         let i = 0
         eventSource.onmessage = (event) => {
-            // console.log("SSE 连接成功，接收到消息：", event.data);
-
-            // console.log(event.data);
             i++
             console.log("第"+i+"次接收到消息：", event.data);
             if (event.data===("```") && i>2) {
