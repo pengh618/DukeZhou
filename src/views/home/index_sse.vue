@@ -171,8 +171,9 @@ const handleClick = async () => {
     showProcess.value = true
     try {
         
-        let url = 'https://world.ai-help.space/qa_plus/generate?input='+encodeURIComponent(userInput.value);
-
+        // let url = 'https://world.ai-help.space/qa_plus/generate?input='+encodeURIComponent(userInput.value);
+        let url = 'https://duke-zhou-server.vercel.app/qa_plus/generate?input='+encodeURIComponent(userInput.value);
+        
         let eventSource: EventSource ;
         eventSource = new EventSource(url);
 
