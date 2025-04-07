@@ -14,7 +14,7 @@
                             :style="{ height: '100px' }" />
 
                         <n-scrollbar>
-                            <div style="max-height: 200px; overflow-y: auto;">
+                            <div v-show="showProcess" style="max-height: 200px; overflow-y: auto;">
                                 <n-input type="textarea" v-model:value="answers" readonly size="large" round placeholder="AI吐词区~~~思考完成将格式化~~~"
                                     :style="{ height: '180px' }" />
                             </div>
@@ -22,25 +22,7 @@
                     </n-space>
                 </div>
 
-                <div class="mt-4 flex justify-center space-x-4">
-                    <n-button type="info" :loading="loading" @click="handleClick">
-                        <template v-if="loading">
-                            AI 正在思考...
-                        </template>
-                        <template v-else>
-                            解读梦境
-                        </template>
-                    </n-button>
-
-                </div>
-            </div>
-            <n-modal v-model:show="showModal" class="custom-card" preset="card" :style="bodyStyle" title="梦境解析"
-                size="huge" :bordered="false">
-
-                <template #header-extra>
-                </template>
-
-                <n-table :bordered="false" :single-line="false">
+                <n-table :bordered="false" :single-line="false" v-show="showResult">
                     <thead>
                         <tr>
                             <th></th>
@@ -94,9 +76,30 @@
                         </tr>
                     </tbody>
                 </n-table>
+
+
+                <div class="mt-4 flex justify-center space-x-4">
+                    <n-button type="info" :loading="loading" @click="handleClick">
+                        <template v-if="loading">
+                            AI 正在思考...
+                        </template>
+                        <template v-else>
+                            解读梦境
+                        </template>
+                    </n-button>
+
+                </div>
+            </div>
+            <!-- <n-modal v-model:show="showModal" class="custom-card" preset="card" :style="bodyStyle" title="梦境解析"
+                size="huge" :bordered="false">
+
+                <template #header-extra>
+                </template>
+
+                
                 <template #footer>
                 </template>
-            </n-modal>
+            </n-modal> -->
 
 
         </main>
@@ -106,11 +109,33 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import CommpnPage from '@/components/common/CommpnPage.vue'
+import hljs from 'highlight.js';
+import MarkdownIt from 'markdown-it';
 
 const userInput = ref('')
 const answers = ref('')
 const loading = ref(false)
-const showModal = ref(false)
+const showProcess = ref(false)
+const showResult = ref(false)
+
+// 初始化MarkdownIt实例
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: (str, lang) => {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<pre class="hljs"><code>' +
+          hljs.highlight(lang, str, true).value +
+          '</code></pre>';
+      } catch (__) {
+      }
+    }
+
+    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+  }
+});
 
 interface DreamAnalysis {
     梦境内容: string;
@@ -124,11 +149,6 @@ interface DreamAnalysis {
     };
     潜在意义: string;
     总结: string;
-}
-
-const bodyStyle = {
-    width: '800vw',
-    maxWidth: '1000px'
 }
 
 const resultObj = ref<DreamAnalysis>({
@@ -147,6 +167,8 @@ const resultObj = ref<DreamAnalysis>({
 
 const handleClick = async () => {
     loading.value = true
+    showResult.value = false;
+    showProcess.value = true
     try {
         
         let url = 'https://world.ai-help.space/qa_plus/generate?input='+encodeURIComponent(userInput.value);
@@ -154,8 +176,33 @@ const handleClick = async () => {
         let eventSource: EventSource ;
         eventSource = new EventSource(url);
 
+        /*
+        * open：订阅成功（和后端连接成功）
+        */
+        eventSource.addEventListener("open", function(e) {
+            console.log('open successfully')
+        });
+        let i = 0
         eventSource.onmessage = (event) => {
-            console.log("收到消息内容是:", event.data)
+            // console.log("SSE 连接成功，接收到消息：", event.data);
+
+            // console.log(event.data);
+            i++
+            console.log("第"+i+"次接收到消息：", event.data);
+            if (event.data===("```") && i>2) {
+                loading.value = false;
+                eventSource.close();
+
+                let content = answers.value;
+                content = content.slice(7);
+
+                resultObj.value = JSON.parse(content);
+                showProcess.value = false;
+                showResult.value = true;
+                answers.value = '';
+                console.log("收到消息内容是:", content);
+                return;
+            }
             answers.value += event.data;
         };
 
@@ -163,15 +210,6 @@ const handleClick = async () => {
             console.error("SSE 连接出错：", error);
             loading.value = false
             eventSource.close();
-
-            let content = answers.value;
-            content = content.slice(7, -3);
-
-            console.log(content);
-            resultObj.value = JSON.parse(content);
-            showModal.value = true;
-            answers.value = '';
-
         };
 
     } catch (error) {
