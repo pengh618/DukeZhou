@@ -12,13 +12,9 @@
                     <n-space vertical>
                         <n-input type="textarea" v-model:value="userInput" size="large" round placeholder="请描述你的梦境..."
                             :style="{ height: '100px' }" />
-
-                        <n-scrollbar>
-                            <div v-show="showProcess" style="max-height: 200px; overflow-y: auto;">
-                                <n-input type="textarea" v-model:value="answers" readonly size="large" round placeholder="AI吐词区~~~思考完成将格式化~~~"
-                                    :style="{ height: '180px' }" />
-                            </div>
-                        </n-scrollbar>
+                       <div v-show="showProcess" style="font-size: 10px; overflow-y: auto;">
+                                <div id="think-box" v-html="md.render(answers)"></div>
+                       </div>
                     </n-space>
                 </div>
 
@@ -90,18 +86,6 @@
 
                 </div>
             </div>
-            <!-- <n-modal v-model:show="showModal" class="custom-card" preset="card" :style="bodyStyle" title="梦境解析"
-                size="huge" :bordered="false">
-
-                <template #header-extra>
-                </template>
-
-                
-                <template #footer>
-                </template>
-            </n-modal> -->
-
-
         </main>
     </CommpnPage>
 </template>
@@ -165,6 +149,20 @@ const resultObj = ref<DreamAnalysis>({
     总结: ''
 })
 
+/**
+ * 滚动到聊天框底部
+ */
+const scrollToBottom = async () => {
+    await nextTick();
+    const thinkBox = document.getElementById('think-box');
+    if (thinkBox) {
+        thinkBox.scrollTo({
+            top: thinkBox.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
+};
+
 const handleClick = async () => {
     loading.value = true
     showResult.value = false;
@@ -188,11 +186,10 @@ const handleClick = async () => {
                 showProcess.value = false;
                 showResult.value = true;
                 answers.value = '';
-
                 return;
-
             }
             answers.value += event.data;
+            scrollToBottom();
         };
 
         eventSource.onerror = (error) => {
