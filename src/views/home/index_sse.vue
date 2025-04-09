@@ -171,28 +171,26 @@ const handleClick = async () => {
     showProcess.value = true
     try {
         
-        // let url = 'https://world.ai-help.space/qa_plus/generate?input='+encodeURIComponent(userInput.value);
-        let url = 'https://duke-zhou-server.vercel.app/qa_plus/generate?input='+encodeURIComponent(userInput.value);
+        let url = 'https://world.ai-help.space/qa_plus/generate?input='+encodeURIComponent(userInput.value);
+        // let url = 'https://duke-zhou-server.vercel.app/qa_plus/generate?input='+encodeURIComponent(userInput.value);
         
         let eventSource: EventSource ;
         eventSource = new EventSource(url);
-
-        let i = 0
-        eventSource.onmessage = (event) => {
-            i++
-            if (event.data===("```") && i>2) {
+        eventSource.onmessage = (event) => {            
+            if (event.data===("[DONE]")) {
                 loading.value = false;
                 eventSource.close();
 
                 let content = answers.value;
-                content = content.slice(7);
+                content = content.slice(7,-3);
 
                 resultObj.value = JSON.parse(content);
                 showProcess.value = false;
                 showResult.value = true;
                 answers.value = '';
-                console.log("收到消息内容是:", content);
+
                 return;
+
             }
             answers.value += event.data;
         };
