@@ -1,6 +1,8 @@
 <template>
   <Header />
-  <slot />
+  <div style="overflow-y: auto; max-height: calc(120vh);">
+    <slot />
+  </div>
   <Footer />
 </template>
 
