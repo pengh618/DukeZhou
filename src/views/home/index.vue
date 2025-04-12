@@ -8,7 +8,7 @@
                         <span class="ml-4 text-lg">AI解梦</span>
                     </div>
                 </n-card>
-                <n-card class="title-center">
+                <n-card class="title-center cursor-pointer" @click="pushRoute('/song')">
                     <div class="flex items-center">
                         <img src="https://free4.yunpng.top/2025/04/06/67f27fdba0a11.png" class="w-1/2">
                         <span class="ml-4 text-lg">歌词解读</span>

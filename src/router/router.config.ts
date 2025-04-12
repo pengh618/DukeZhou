@@ -15,6 +15,13 @@ const constantRoutes: RouteRecordRaw[] = [
     meta: {
       title: 'AI解梦'
     }
+  },{
+    path: '/song',
+    name: 'song',
+    component: () => import('@/views/home/index_song.vue'), // Ensure this file exists at the specified path
+    meta: {
+      title: '歌词解读'
+    }
   },
   // ...accessRoutes,
 ]
