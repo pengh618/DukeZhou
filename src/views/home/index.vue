@@ -14,7 +14,7 @@
                         <span class="ml-4 text-lg">歌词解读</span>
                     </div>
                 </n-card>
-                <n-card class="title-center">
+                <n-card class="title-center cursor-pointer" @click="pushRoute('/plan')">
                     <div class="flex items-center">
                         <img src="https://free4.yunpng.top/2025/04/06/67f27fe02e8f7.png" class="w-1/2">
                         <span class="ml-4 text-lg">旅程规划</span>
