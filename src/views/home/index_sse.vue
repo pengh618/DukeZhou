@@ -1,21 +1,27 @@
 <template>
     <CommpnPage>
         <main class="auto-bg h-full flex flex-col items-center">
-            <div class="m-12 flex-1 rounded-2 lg:w-[1200px] lg:px-0 w-90%">
-                <n-gradient-text :size="24" type="info">
-                    分享你的梦境，AI提供解读
-                </n-gradient-text>
-            </div>
 
             <div class="p-4 bg-gray-50 rounded-lg shadow-md mb-8 lg:w-[1000px] w-90%">
                 <div class="pt-4 pl-6 pr-5">
                     <n-space vertical>
                         <n-input type="textarea" v-model:value="userInput" size="large" round placeholder="请描述你的梦境..."
-                            :style="{ height: '100px' }" />
-                       <div v-show="showProcess" style="font-size: 10px; overflow-y: auto;">
-                                <div id="think-box" v-html="md.render(answers)"></div>
-                       </div>
+                            :style="{ height: '120px' }" />
                     </n-space>
+                    <div class="mt-4 flex justify-center">
+                        <n-button type="info" :loading="loading" @click="handleClick">
+                            <template v-if="loading">
+                                AI 正在思考...
+                            </template>
+                            <template v-else>
+                                解读梦境
+                            </template>
+                        </n-button>
+                    </div>
+                    <div v-show="showProcess" style="font-size: 10px; overflow-y: auto;">
+                        <!-- <div id="think-box" v-html="md.render(answers)"></div> -->
+                        <div id="think-box" v-html="answers" style="white-space: pre-wrap; word-wrap: break-word;"></div>
+                    </div>
                 </div>
 
                 <n-table :bordered="false" :single-line="false" v-show="showResult">
@@ -72,19 +78,6 @@
                         </tr>
                     </tbody>
                 </n-table>
-
-
-                <div class="mt-4 flex justify-center space-x-4">
-                    <n-button type="info" :loading="loading" @click="handleClick">
-                        <template v-if="loading">
-                            AI 正在思考...
-                        </template>
-                        <template v-else>
-                            解读梦境
-                        </template>
-                    </n-button>
-
-                </div>
             </div>
         </main>
     </CommpnPage>
@@ -104,21 +97,21 @@ const showResult = ref(false)
 
 // 初始化MarkdownIt实例
 const md = new MarkdownIt({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: (str, lang) => {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return '<pre class="hljs"><code>' +
-          hljs.highlight(lang, str, true).value +
-          '</code></pre>';
-      } catch (__) {
-      }
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: (str, lang) => {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return '<pre class="hljs"><code>' +
+                    hljs.highlight(lang, str, true).value +
+                    '</code></pre>';
+            } catch (__) {
+            }
+        }
+        
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
     }
-
-    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
-  }
 });
 
 interface DreamAnalysis {
@@ -168,19 +161,19 @@ const handleClick = async () => {
     showResult.value = false;
     showProcess.value = true
     try {
-        
-        let url = 'https://world.ai-help.space/qa_plus/generate?input='+encodeURIComponent(userInput.value);
+
+        let url = 'https://world.ai-help.space/qa_plus/generate?input=' + encodeURIComponent(userInput.value);
         // let url = 'https://duke-zhou-server.vercel.app/qa_plus/generate?input='+encodeURIComponent(userInput.value);
-        
-        let eventSource: EventSource ;
+
+        let eventSource: EventSource;
         eventSource = new EventSource(url);
-        eventSource.onmessage = (event) => {            
-            if (event.data===("[DONE]")) {
+        eventSource.onmessage = (event) => {
+            if (event.data === ("[DONE]")) {
                 loading.value = false;
                 eventSource.close();
 
                 let content = answers.value;
-                content = content.slice(7,-3);
+                content = content.slice(7, -3);
 
                 resultObj.value = JSON.parse(content);
                 showProcess.value = false;
