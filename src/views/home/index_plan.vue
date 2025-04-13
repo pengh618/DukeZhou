@@ -110,7 +110,9 @@ interface ApiResponse {
     "行程规划": Itinerary[];
 }
 
-const resultObj = ref<ApiResponse>({})
+const resultObj = ref<ApiResponse>({
+    行程规划: []
+})
 
 // 初始化MarkdownIt实例
 const md = new MarkdownIt({
