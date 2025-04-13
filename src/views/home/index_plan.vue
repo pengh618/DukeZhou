@@ -152,7 +152,7 @@ const handleClick = async () => {
     answers.value = '';    
     showResult.value = false;
     showProcess.value = true
-    resultObj.value = {};
+    resultObj.value = { "行程规划": [] };
     try {
 
         let url = 'https://world.ai-help.space/sse/generate_md?code=plan&days='+selectedDay.value+'&city=' + encodeURIComponent(userInput.value);
